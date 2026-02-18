@@ -1,10 +1,18 @@
 <?php
 
-
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Database;
 use App\Service\PriceCalculator;
+
+/**
+* Public order form and order processing endpoint.
+*
+* - Renders a simple HTML form to create an order.
+* - On POST: validates input, calculates totals (with/without VAT)
+*   and inserts the order into the database.
+* - Uses App\Service\PriceCalculator to perform price math.
+*/
 
 $pdo = Database::connect();
 $stmt = $pdo->query("SELECT * FROM products");
@@ -21,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $productId = (int)$_POST['product_id'];
     $quantity = (int)$_POST['quantity'];
 
-    // Backend validace
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         die("Neplatný email");
     }
@@ -34,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Neplatné množství");
     }
 
-    // Načti produkt z DB
+    // Load the product from the database to get price and VAT info
     $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
     $stmt->execute([$productId]);
     $product = $stmt->fetch();
@@ -53,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $product['vat_rate']
     );
 
-    // Ulož objednávku
     $stmt = $pdo->prepare("
         INSERT INTO orders 
         (first_name, last_name, email, phone, product_id, quantity, total_without_vat, total_with_vat)

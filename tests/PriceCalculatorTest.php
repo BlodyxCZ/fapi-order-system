@@ -3,12 +3,19 @@
 use PHPUnit\Framework\TestCase;
 use App\Service\PriceCalculator;
 
+/**
+ * Unit tests for PriceCalculator.
+ *
+ * These tests assert the basic arithmetic and rounding behaviour used by
+ * the application when computing totals with and without VAT.
+ */
 class PriceCalculatorTest extends TestCase
 {
     private PriceCalculator $calculator;
 
     protected function setUp(): void
     {
+        // Create a fresh instance for each test
         $this->calculator = new PriceCalculator();
     }
 
