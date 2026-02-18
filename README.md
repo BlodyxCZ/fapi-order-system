@@ -62,26 +62,19 @@ git clone <repo-url>
 cd fapi-order-system
 ```
 
-2. a) (with make) Start the development environment with Docker Compose:
+1. a) Start the development environment with make command:
 
 ```bash
 make dev
 ```
 
-2. b) (with make) Start the development environment with Docker Compose:
+2. b) Start the development environment with Docker Compose:
 
 ```bash
 docker compose up --build
 ```
 
 3. Open `http://localhost:8080` to access the app (nginx serves `public/`).
-
-4. To open a shell in the `app` container:
-
-```bash
-make bash
-# then run DB setup/queries inside the container
-```
 
 ## Available Commands
 

@@ -7,6 +7,3 @@ test:
 restart:
 	docker compose down
 	docker compose up --build -d
-
-bash:
-	docker compose run --rm app bash
