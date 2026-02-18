@@ -36,7 +36,12 @@ fapi-order-system/
 │   └── PriceCalculatorTest.php    # Unit tests for price calculator
 ├── docker/
 │   ├── Dockerfile         # PHP application container
-│   └── nginx.conf         # Nginx configuration
+│   ├── nginx.conf         # Nginx configuration
+│   └── db/
+│       └── init.sql       # SQL to initialize database tables
+├── composer.json          # PHP dependencies
+├── composer.lock          # Locked dependencies
+├── composer.phar          # Composer binary (optional)
 ├── docker-compose.yml     # Multi-container setup definition
 └── Makefile               # Convenient command shortcuts
 ```
