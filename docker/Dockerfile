@@ -6,14 +6,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Composer globally so vendor dependencies can be installed
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-COPY composer.json composer.lock* ./
-
-# Install dependencies without dev dependencies, optimize autoloader and avoid interaction
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Copy the rest of the application code to the container
-COPY . .
+# Install composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www
