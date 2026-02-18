@@ -84,7 +84,6 @@ Use the `Makefile` for common tasks:
 make dev      # build & start containers
 make test     # run PHPUnit tests
 make restart  # stop and rebuild containers
-make bash     # open shell in app container
 ```
 
 ## API/Application Endpoints
