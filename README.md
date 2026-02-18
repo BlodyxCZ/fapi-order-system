@@ -60,13 +60,18 @@ fapi-order-system/
 ```bash
 git clone <repo-url>
 cd fapi-order-system
-composer install
 ```
 
-2. Start the development environment with Docker Compose:
+2. a) (with make) Start the development environment with Docker Compose:
 
 ```bash
 make dev
+```
+
+2. b) (with make) Start the development environment with Docker Compose:
+
+```bash
+docker compose up --build
 ```
 
 3. Open `http://localhost:8080` to access the app (nginx serves `public/`).
