@@ -1,6 +1,6 @@
 # FAPI Order System
 
-A PHP-based order management system with integrated price calculation, VAT handling, and currency conversion capabilities.
+A small PHP order example demonstrating price/VAT calculations and CNB-based CZK→EUR conversion.
 
 ## Features
 
@@ -45,48 +45,43 @@ fapi-order-system/
 
 ### Prerequisites
 
-- Docker and Docker Compose installed
-- Windows, macOS, or Linux system
+- Docker & Docker Compose
+- PHP & Composer (for running tests locally)
 
 ### Installation & Setup
 
-1. **Clone/Navigate to the repository**
-   ```bash
-   cd fapi-order-system
-   ```
+1. Clone and install dependencies locally (optional):
 
-2. **Start the development environment**
-   ```bash
-   make dev
-   ```
-   This will build and start all containers (PHP app, Nginx, MariaDB).
+```bash
+git clone <repo-url>
+cd fapi-order-system
+composer install
+```
 
-3. **Access the application**
-   - Web interface: `http://localhost:8080`
-   - Nginx serves files from the `public/` directory
+2. Start the development environment with Docker Compose:
 
-4. **Set up the database**
-   ```bash
-   make bash
-   # Inside the container, create the database and tables
-   ```
+```bash
+make dev
+```
+
+3. Open `http://localhost:8080` to access the app (nginx serves `public/`).
+
+4. To open a shell in the `app` container:
+
+```bash
+make bash
+# then run DB setup/queries inside the container
+```
 
 ## Available Commands
 
-Use the Makefile for convenient command execution:
+Use the `Makefile` for common tasks:
 
 ```bash
-# Start development server with auto-build
-make dev
-
-# Run unit tests
-make test
-
-# Manage containers (stop and rebuild)
-make restart
-
-# Access container shell
-make bash
+make dev      # build & start containers
+make test     # run PHPUnit tests
+make restart  # stop and rebuild containers
+make bash     # open shell in app container
 ```
 
 ## API/Application Endpoints
@@ -112,33 +107,31 @@ Manages database connections:
 
 ## Validation Rules
 
-Orders must meet the following validation criteria:
-- **Email**: Valid email format (RFC standard)
-- **Phone**: 9-15 digit number
-- **Quantity**: Positive integer
+Server-side validation enforces:
+
+- **Email**: RFC-compliant format
+- **Phone**: 9–15 digits
+- **Quantity**: positive integer
 
 ## Testing
 
-Run the test suite:
+Run unit tests with:
 
 ```bash
 make test
 ```
 
-Tests are located in `tests/` and use PHPUnit framework.
+Unit tests live in `tests/` and cover `PriceCalculator` behaviors.
 
 ## Development
 
-### Adding New Features
+To add features:
 
-1. Create service classes in `src/Service/`
-2. Add unit tests in `tests/`
-3. Use dependency injection where appropriate
-4. Follow PSR-4 autoloading conventions
+1. Add small, testable services to `src/Service/`.
+2. Add unit tests under `tests/` and run `make test`.
+3. Prefer constructor injection and PSR-4 class organization.
 
-### Database Queries
-
-The application uses PDO with prepared statements for secure database operations. Examples can be found in `public/index.php`.
+Database code uses PDO and prepared statements; see `public/index.php` for examples.
 
 ## Docker Configuration
 
@@ -159,8 +152,4 @@ The application uses three services:
 
 ## License
 
-This project is created for educational and development purposes.
-
-## Support & Contact
-
-For issues or questions, refer to the project repository or contact the development team.
+Educational/example project — use and modify for learning.
