@@ -7,15 +7,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Composer globally so vendor dependencies can be installed
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY composer.json composer.lock* ./
 
-# nainstaluj závislosti
+# Install dependencies without dev dependencies, optimize autoloader and avoid interaction
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# zkopíruj zbytek aplikace
+# Copy the rest of the application code to the container
 COPY . .
 
 WORKDIR /var/www
