@@ -13,20 +13,17 @@ use PDO;
  * In a real app you would typically read credentials from environment
  * variables or a configuration file instead of hard-coding them.
  */
-class Database
-{
-    public static function connect(): PDO
-    {
-        // NOTE: values are simple defaults for local/dev environment
-        $host = getenv("MARIADB_HOST");
-        $user = getenv("MARIADB_USER");
-        $pass = getenv("MARIADB_PASSWORD");
-        $db   = getenv("MARIADB_DATABASE");
+
+class Database {
+    public static function connect(): PDO {
+        $host = getenv('MYSQLHOST') ?: '127.0.0.1';
+        $db   = getenv('MYSQLDATABASE') ?: 'fapi';
+        $user = getenv('MYSQLUSER') ?: 'root';
+        $pass = getenv('MYSQLPASSWORD') ?: '';
         $charset = 'utf8mb4';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
-        // Create PDO with sensible defaults: exceptions on error and associative fetch
         return new PDO($dsn, $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
