@@ -1,31 +1,20 @@
-FROM php:8.2-fpm
+FROM ghcr.io/railwayapp/frankenphp:8.2
 
-# Install small utilities and the PDO MySQL extension required by the app
-RUN apt-get update && apt-get install -y \
-    git unzip curl \
-    && docker-php-ext-install pdo pdo_mysql \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-WORKDIR /var/www
-
+# Copy composer files
 COPY composer.json composer.lock ./
 
-# Install composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install PHP dependencies
+# Install composer dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+# Copy app code
 COPY . .
 
-# Copy nginx config
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+RUN chown -R www-data:www-data /app
 
-# Fix permissions
-RUN chown -R www-data:www-data /var/www
-
-# Expose Railway port
+# Expose the port (Railway uses $PORT)
 EXPOSE 8080
 
-# Start php-fpm and nginx
-CMD php-fpm & nginx -g "daemon off;"
+# Start FrankenPHP
+CMD ["frankenphp", "-S", "0.0.0.0:${PORT}", "-t", "public"]
