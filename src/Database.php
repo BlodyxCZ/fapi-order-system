@@ -18,10 +18,10 @@ class Database
     public static function connect(): PDO
     {
         // NOTE: values are simple defaults for local/dev environment
-        $host = 'db';
-        $db   = 'fapi';
-        $user = 'root';
-        $pass = 'root';
+        $host = getenv("MARIADB_HOST");
+        $user = getenv("MARIADB_USER");
+        $pass = getenv("MARIADB_PASSWORD");
+        $db   = getenv("MARIADB_DATABASE");
         $charset = 'utf8mb4';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
